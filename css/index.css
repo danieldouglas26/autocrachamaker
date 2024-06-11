@@ -1,0 +1,73 @@
+@font-face {
+    font-family: ArialRoundedMTBold;
+    src: url('/assets/fontes/arialroundedmtbold.ttf') format('truetype');
+}
+
+body {
+    font-family: ArialRoundedMTBold, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    background-color: #ffffff;
+    padding: 20px;
+}
+#form-container, #preview-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 10px;
+}
+#form-container {
+    width: 300px;
+}
+#preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
+.badge-preview {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    
+}
+canvas {
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    max-width: 600px; /* Defina a largura máxima desejada para cada canvas */
+    max-height: 400px; /* Defina a altura máxima desejada para cada canvas */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+button {
+    margin-top: 10px;
+}
+#crop-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+#crop-container img {
+    max-width: 250px;
+    max-height: 250px;
+}
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+}

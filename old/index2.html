@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatização de Crachás</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #form-container, #crop-container, #badge-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 10px;
+            display: none;
+        }
+        #form-container {
+            display: block;
+        }
+        #crop-container img {
+            max-width: 100%;
+        }
+        canvas {
+            border: 1px solid #ddd;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="form-container">
+        <h2>Gerar Crachá</h2>
+        <form id="badge-form">
+            <div>
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="role">Cargo:</label>
+                <input type="text" id="role" name="role" required>
+            </div>
+            <div>
+                <label for="cpf">CPF:</label>
+                <input type="text" id="cpf" name="cpf" required>
+            </div>
+            <div>
+                <label for="photo">Foto:</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required>
+            </div>
+            <button type="submit">Gerar Crachá</button>
+        </form>
+    </div>
+    <div id="crop-container">
+        <h2>Recortar Imagem</h2>
+        <img id="crop-image">
+        <button id="crop-button">Confirmar Recorte</button>
+    </div>
+    <div id="badge-container">
+        <h2>Crachá Gerado</h2>
+        <canvas id="badge-canvas" width="400" height="600"></canvas>
+        <button id="download-button">Baixar Crachá</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+        let cropper;
+
+        document.getElementById('badge-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const role = document.getElementById('role').value;
+            const cpf = document.getElementById('cpf').value;
+            const photo = document.getElementById('photo').files[0];
+
+            if (photo) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.getElementById('crop-image');
+                    img.src = event.target.result;
+                    img.onload = function() {
+                        cropper = new Cropper(img, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                        });
+                        document.getElementById('form-container').style.display = 'none';
+                        document.getElementById('crop-container').style.display = 'block';
+                    };
+                };
+                reader.readAsDataURL(photo);
+            }
+        });
+
+        document.getElementById('crop-button').addEventListener('click', function() {
+            const canvas = cropper.getCroppedCanvas({
+                width: 100,
+                height: 100,
+            });
+            const croppedImage = new Image();
+            croppedImage.onload = function() {
+                const name = document.getElementById('name').value;
+                const role = document.getElementById('role').value;
+                const cpf = document.getElementById('cpf').value;
+                drawBadge(name, role, cpf, croppedImage);
+            };
+            croppedImage.src = canvas.toDataURL();
+            document.getElementById('crop-container').style.display = 'none';
+        });
+
+        function drawBadge(name, role, cpf, img) {
+            const canvas = document.getElementById('badge-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw badge background (use your own badge image path)
+            const badgeBackground = new Image();
+            badgeBackground.onload = function() {
+                ctx.drawImage(badgeBackground, 0, 0, canvas.width, canvas.height);
+
+                // Draw the cropped photo
+                ctx.drawImage(img, 150, 50, 100, 100);
+
+                // Set text styles and draw text
+                ctx.font = '20px Arial';
+                ctx.fillStyle = '#000';
+                ctx.textAlign = 'center';
+                ctx.fillText(name, canvas.width / 2, 200);
+                ctx.fillText(role, canvas.width / 2, 240);
+                ctx.fillText(cpf, canvas.width / 2, 280);
+
+                // Show the badge container and download button
+                document.getElementById('badge-container').style.display = 'block';
+            };
+            badgeBackground.src = 'badge_background.png'; // Path to your badge background image
+        }
+
+        document.getElementById('download-button').addEventListener('click', function() {
+            const canvas = document.getElementById('badge-canvas');
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'badge.png';
+            link.click();
+        });
+    </script>
+</body>
+</html>
