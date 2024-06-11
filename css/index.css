@@ -1,10 +1,15 @@
 @font-face {
-    font-family: ArialRoundedMTBold;
+    
+    font-family: ArialRoundedMTBold; 
     src: url('/assets/fontes/arialroundedmtbold.ttf') format('truetype');
 }
 
+h2 {
+text-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
 body {
-    font-family: ArialRoundedMTBold, Arial, sans-serif;
+    font-family: ArialRoundedMTBold, sans-serif;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -37,8 +42,8 @@ body {
 canvas {
     border: 1px solid #ddd;
     margin-top: 10px;
-    max-width: 600px; /* Defina a largura máxima desejada para cada canvas */
-    max-height: 400px; /* Defina a altura máxima desejada para cada canvas */
+    max-width: 583px; /* Defina a largura máxima desejada para cada canvas */
+    max-height: 383px; /* Defina a altura máxima desejada para cada canvas */
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 
 }

@@ -1,16 +1,33 @@
 // Lógica para criar crachá 
 
-document.getElementById('name').addEventListener('input', function() {
-    this.value = this.value.toUpperCase(); // Convert input to uppercase
-  });
+const roleSelect = document.getElementById('role');
+const customRoleInput = document.getElementById('customRole');
 
-  document.getElementById('cpf').addEventListener('input', function() {
-    let formattedCPF = this.value.replace(/\D/g, ''); 
-    formattedCPF = formattedCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'); 
-        this.value = formattedCPF;
-   
-    
-  });
+roleSelect.addEventListener('change', function () {
+    if (this.value === 'custom') {
+        const selectContainer = this.parentNode;
+        const newInput = customRoleInput.cloneNode(true);
+        newInput.classList.remove('d-none');
+        newInput.id = 'selectedRole';
+        selectContainer.replaceChild(newInput, this);
+        newInput.focus();
+    } else {
+        customRoleInput.classList.add('d-none');
+        this.classList.remove('hidden');
+    }
+});
+
+document.getElementById('name').addEventListener('input', function () {
+    this.value = this.value.toUpperCase(); // Convert input to uppercase
+});
+
+document.getElementById('cpf').addEventListener('input', function () {
+    let formattedCPF = this.value.replace(/\D/g, '');
+    formattedCPF = formattedCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    this.value = formattedCPF;
+
+
+});
 
 document.getElementById('photo').addEventListener('change', function (event) {
     const photo = event.target.files[0];
@@ -56,13 +73,25 @@ document.getElementById('crop-button').addEventListener('click', function () {
     croppedImage.src = canvas.toDataURL();
 });
 
+/*document.getElementById('makeCracha').addEventListener('submit', function (e) {
+        // Previa do crachá
+        const name = document.getElementById('name').value;
+        const role = document.getElementById('role').value;
+        const cpf = document.getElementById('cpf').value;
+        drawBadgeFront(name, role, croppedImage);
+        drawBadgeBack(cpf);
+        croppedImage.src = canvas.toDataURL();
+});*/
+
 document.getElementById('badge-form').addEventListener('submit', function (e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
-    const role = document.getElementById('role').value;
+    // const role = document.getElementById('role').value;
+    const roleDisplay = document.getElementById('role');
     const cpf = document.getElementById('cpf').value;
     const previewImage = document.getElementById('preview');
 });
+
 
 document.getElementById('download-button').addEventListener('click', function () {
     const frontCanvas = document.getElementById('badge-canvas-front');
@@ -77,7 +106,7 @@ document.getElementById('download-button').addEventListener('click', function ()
         title: "The Internet?",
         text: "That thing is still around?",
         icon: "question"
-      });
+    });
     //alert("Download em proocesso!")
     frontLink.click();
 
@@ -91,9 +120,36 @@ document.getElementById('download-button').addEventListener('click', function ()
 
     // Reseta o previw e os dados 
     document.getElementById('badge-form').reset();
+    //document.getElementById('badge-canvas-front').style.display = 'none';
+    //document.getElementById('badge-canvas-back').style.display = 'none';
+});
+
+document.getElementById('download-buttonPDF').addEventListener('click', function () {
+    const frontCanvas = document.getElementById('badge-canvas-front');
+    const backCanvas = document.getElementById('badge-canvas-back');
+
+    // Criar um novo documento PDF
+    const pdf = new jsPDF();
+
+    // Adicionar a parte da frente do crachá ao PDF
+    const frontDataURL = frontCanvas.toDataURL('image/png');
+    pdf.addImage(frontDataURL, 'PNG', 10, 10, 100, 100); // Ajuste as coordenadas e o tamanho conforme necessário
+
+    // Adicionar a parte de trás do crachá ao PDF
+    const backDataURL = backCanvas.toDataURL('image/png');
+    pdf.addPage(); // Adiciona uma nova página ao PDF
+    pdf.addImage(backDataURL, 'PNG', 10, 10, 100, 100); // Ajuste as coordenadas e o tamanho conforme necessário
+
+    // Baixar o PDF
+    pdf.save(document.getElementById('name').value + '_cracha.pdf');
+
+    // Reseta o previw e os dados 
+    document.getElementById('badge-form').reset();
     document.getElementById('badge-canvas-front').style.display = 'none';
     document.getElementById('badge-canvas-back').style.display = 'none';
 });
+
+
 
 function drawBadgeFront(name, role, img) {
     const canvas = document.getElementById('badge-canvas-front');
