@@ -18,7 +18,7 @@ roleSelect.addEventListener('change', function () {
 });
 
 document.getElementById('name').addEventListener('input', function () {
-    this.value = this.value.toUpperCase(); // Convert input to uppercase
+    this.value = this.value.toUpperCase(); // Converte para maiuscula sempre que for digitado
 });
 
 document.getElementById('cpf').addEventListener('input', function () {
