@@ -8,7 +8,13 @@ h2 {
 text-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-body {
+.nav-item{
+
+    color: black;
+
+}
+
+main {
     font-family: ArialRoundedMTBold, sans-serif;
     display: flex;
     justify-content: center;

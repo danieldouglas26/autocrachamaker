@@ -1,5 +1,7 @@
 // Lógica para criar crachá 
 
+
+
 const roleSelect = document.getElementById('role');
 const customRoleInput = document.getElementById('customRole');
 
@@ -67,8 +69,18 @@ document.getElementById('crop-button').addEventListener('click', function () {
         const name = document.getElementById('name').value;
         const role = document.getElementById('role').value;
         const cpf = document.getElementById('cpf').value;
-        drawBadgeFront(name, role, croppedImage);
+
+        if (name != "" && cpf != "" && role != 0) {
+            drawBadgeFront(name, role, croppedImage);
         drawBadgeBack(cpf);
+        } else {
+            Swal.fire({
+                title: "The Internet?",
+                text: "That thing is still around?",
+                icon: "question"
+            });
+        }
+        
     };
     croppedImage.src = canvas.toDataURL();
 });
@@ -86,7 +98,6 @@ document.getElementById('crop-button').addEventListener('click', function () {
 document.getElementById('badge-form').addEventListener('submit', function (e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
-    // const role = document.getElementById('role').value;
     const roleDisplay = document.getElementById('role');
     const cpf = document.getElementById('cpf').value;
     const previewImage = document.getElementById('preview');
@@ -94,19 +105,22 @@ document.getElementById('badge-form').addEventListener('submit', function (e) {
 
 
 document.getElementById('download-button').addEventListener('click', function () {
+
     const frontCanvas = document.getElementById('badge-canvas-front');
     const backCanvas = document.getElementById('badge-canvas-back');
 
+    const name = document.getElementById('name').value;
+    const role = document.getElementById('role').value;
+    const cpf = document.getElementById('cpf').value;
+
+  if (name != "" && cpf != "" && role != 0) {
+    
     // Donwload da parte da frente
     const frontDataURL = frontCanvas.toDataURL('image/png');
     const frontLink = document.createElement('a');
     frontLink.href = frontDataURL;
     frontLink.download = document.getElementById('name').value + '_frente.png';
-    Swal.fire({
-        title: "The Internet?",
-        text: "That thing is still around?",
-        icon: "question"
-    });
+
     //alert("Download em proocesso!")
     frontLink.click();
 
@@ -118,13 +132,78 @@ document.getElementById('download-button').addEventListener('click', function ()
     backLink.download = document.getElementById('name').value + '_verso.png';
     backLink.click();
 
+Swal.fire({
+    position: "middle",
+    icon: "success",
+    title: "Crachá gerado com sucesso!",
+    showConfirmButton: false,
+    timer: 1500
+  });
+} else {
+    Swal.fire({
+        icon: "warning",
+        title: "Insira todos as informações antes de baixar o crachá!",
+        
+      });
+}
+
     // Reseta o previw e os dados 
     document.getElementById('badge-form').reset();
     //document.getElementById('badge-canvas-front').style.display = 'none';
     //document.getElementById('badge-canvas-back').style.display = 'none';
 });
 
-document.getElementById('download-buttonPDF').addEventListener('click', function () {
+
+
+
+document.getElementById('download-buttonPDF').addEventListener('click', async () => {
+    async function createAndDownloadPDF() {
+        const { PDFDocument } = require('pdf-lib');
+
+        // Função para criar uma página no PDF a partir de um canvas
+        async function createPage(doc, canvas) {
+            const imageBytes = canvas.toDataURL('image/png');
+            const image = await doc.embedPng(imageBytes);
+            const page = doc.addPage([canvas.width, canvas.height]);
+            const { width, height } = page.getSize();
+            page.drawImage(image, {
+                x: 0,
+                y: 0,
+                width: width,
+                height: height,
+            });
+            return doc;
+        }
+
+        const doc = await PDFDocument.create();
+
+        // Cria a página do PDF com o crachá da frente
+        const frontCanvas = document.getElementById('badge-canvas-front');
+        await createPage(doc, frontCanvas);
+
+        // Cria a página do PDF com o crachá de trás
+        const backCanvas = document.getElementById('badge-canvas-back');
+        await createPage(doc, backCanvas);
+
+        // Salvar o PDF
+        const pdfBytes = await doc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'crachá.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+
+    // Chamada da função para criar e baixar o PDF
+    await createAndDownloadPDF();
+});
+
+
+/*document.getElementById('download-buttonPDF').addEventListener('click', function () {
     const frontCanvas = document.getElementById('badge-canvas-front');
     const backCanvas = document.getElementById('badge-canvas-back');
 
@@ -149,7 +228,7 @@ document.getElementById('download-buttonPDF').addEventListener('click', function
     document.getElementById('badge-canvas-back').style.display = 'none';
 });
 
-
+*/
 
 function drawBadgeFront(name, role, img) {
     const canvas = document.getElementById('badge-canvas-front');
@@ -204,3 +283,5 @@ function drawBadgeBack(cpf) {
     };
     badgeBackground.src = '/assets/background/Copy_Verso.png'; // Caminho para a imagem base da frente do crachá
 }
+
+

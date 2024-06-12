@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<!--<script src="js/login.js"></script>-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automatização de Crachás</title>
@@ -15,6 +16,34 @@
  
 </head>
 <body>
+	<header>
+		<nav class="navbar bg-body-tertiary">
+			<div class="container-fluid">
+			  <a class="navbar-brand" href="#">
+				<img src="/assets/logoCopysystems.png" alt="Logo" width="20%" class="d-inline-block align-text-top">
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+					  <li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#">Home</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" href="#">Features</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" href="#">Pricing</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+					  </li>
+					</ul>
+				  </div>
+			  </a>
+			</div>
+		  </nav>
+		 
+	</header>
+	<main>
+		
 		<div class="mb-3" id="form-container">
 			<h2>Gerar Crachá</h2>
 			<form id="badge-form">
@@ -30,7 +59,7 @@
 				<label for="role" class="form-label">Cargo / Função</label>
 				<div class="custom-select-container">
 				  <select class="form-select" id="role"  id="formGroupExampleInput2" required>
-					<option value="" disabled selected>Escolha...</option>
+					<option value="0" disabled selected>Escolha...</option>
 					<option value="Auxiliar de TI">Auxiliar de TI</option>
 					<option value="Auxiliar Administrativo">Auxiliar Administrativo</option>
 					<option value="custom">Personalizado</option>
@@ -51,9 +80,9 @@
 				<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				  Exportar Crachá
 				</button>
-				<ul class="dropdown-menu">
+				<ul class="dropdown-menu" >
 				  <li><button id="download-button" class="dropdown-item" type="button">Download PNG</button></li>
-				  <li><button id="download-buttonPDF" class="dropdown-item" type="button">Download PDF</button></li>
+				  <li><button id="c" class="dropdown-item" type="button" >Download PDF</button></li>
 				</ul>
 			  </div>
 			  <!--<div class="mb-3">
@@ -105,7 +134,16 @@
 			<button 
     id="crop-button" class="btn btn-primary">Confirmar Recorte</button>
     </div>
+	</main>
+		
+
+	<footer>
+		TESTE
+	</footer>
+	<script src="js/pdf-lib.js"></script>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
     <script src="js/javascript.js"></script>
 	
 </body>
