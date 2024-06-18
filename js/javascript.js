@@ -1,7 +1,5 @@
 // Lógica para criar crachá 
 
-
-
 const roleSelect = document.getElementById('role');
 const customRoleInput = document.getElementById('customRole');
 
