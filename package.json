@@ -1,0 +1,20 @@
+{
+  "name": "crachacopy",
+  "version": "1.0.0",
+  "description": "Este projeto tem como objetivo criar uma aplicação para a automatização de criação de crachás personalizados para eventos, conferências ou qualquer outra ocasião em que seja necessário identificar os participantes. Os crachás podem conter informações como nome, cargo, cpf e foto do participante.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/static": "^7.0.4",
+    "@sweetalert2/themes": "^5.0.16",
+    "cropperjs": "^2.0.0-rc.0",
+    "fastify": "^4.28.0",
+    "fastify-static": "^4.7.0"
+  }
+}
