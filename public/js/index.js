@@ -1,4 +1,8 @@
 // Lógica para criar crachá 
+import exibirAlerta from '@src/constraints/alerts.js';
+import Cropper from 'cropperjs';
+import makeupercase from '@src/constraints/upercases.js';
+import formatCpf from '@src/constraints/formatcpf.js';
 
 const roleSelect = document.getElementById('role');
 const customRoleInput = document.getElementById('customRole');
@@ -17,21 +21,15 @@ roleSelect.addEventListener('change', function () {
     }
 });
 
-//import makeupercase from '/src/constraints/upercases.js';
+//Função para converter os caracteres em maiúsculos.
+makeupercase('name');
 
-//makeupercase();
+//Funão para formartar o CPF.
+formatCpf('cpf')
 
-document.getElementById('name').addEventListener('input', function () {
-    this.value = this.value.toUpperCase(); // Converte para maiuscula sempre que for digitado
-});
+// Lógica para criar crachá 
 
-document.getElementById('cpf').addEventListener('input', function () {
-    let formattedCPF = this.value.replace(/\D/g, '');
-    formattedCPF = formattedCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    this.value = formattedCPF;
-
-
-});
+let cropper;
 
 document.getElementById('photo').addEventListener('change', function (event) {
     const photo = event.target.files[0];
@@ -42,7 +40,7 @@ document.getElementById('photo').addEventListener('change', function (event) {
             const img = document.getElementById('crop-image');
             img.src = e.target.result;
             img.onload = function () {
-                cropper = new Cropper(img, {
+                cropper =  new Cropper(img, {
                     aspectRatio: 245 / 281, // Proporção desejada
                     //aspectRatio: 1, (Com essa opção, ele não limita o tamanho do seleçaõ)
                     viewMode: 1,
@@ -55,15 +53,14 @@ document.getElementById('photo').addEventListener('change', function (event) {
     }
 });
 document.getElementById('crop-button').addEventListener('click', function () {
-    
     var Cropper = window.Cropper;
-    const canvas = cropper.getCroppedCanvas({
+    const canvas = cropper.getCropperCanvas({
         width: 245,
         height: 281,
     });
     const croppedImage = new Image();
     croppedImage.onload = function () {
-        cropper.destroy();
+        Cropper.destroy();
         document.getElementById('crop-container').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
 
@@ -76,11 +73,7 @@ document.getElementById('crop-button').addEventListener('click', function () {
             drawBadgeFront(name, role, croppedImage);
         drawBadgeBack(cpf);
         } else {
-            Swal.fire({
-                title: "The Internet?",
-                text: "That thing is still around?",
-                icon: "question"
-            });
+           exibirAlerta('Informe os demais campos!','Para criar o crachá é obrigatório informar todos os campos.');
         }
         
     };
@@ -160,7 +153,9 @@ Swal.fire({
 
 document.getElementById('download-buttonPDF').addEventListener('click', async () => {
     async function createAndDownloadPDF() {
-        const { PDFDocument } = require('pdf-lib');
+       // const { PDFDocument } = require('pdf-lib');
+       const PDFDocument = window.Document;
+
 
         // Função para criar uma página no PDF a partir de um canvas
         async function createPage(doc, canvas) {

@@ -19,70 +19,6 @@
 		<%- include('layouts/nav.ejs'); %>
 	</header>
 	<main>
-		<!--form class="row g-3 needs-validation" novalidate>
-			<div class="col-md-4">
-			  <label for="validationCustom01" class="form-label">First name</label>
-			  <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
-			  <div class="valid-feedback">
-				Looks good!
-			  </div>
-			</div>
-			<div class="col-md-4">
-			  <label for="validationCustom02" class="form-label">Last name</label>
-			  <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
-			  <div class="valid-feedback">
-				Looks good!
-			  </div>
-			</div>
-			<div class="col-md-4">
-			  <label for="validationCustomUsername" class="form-label">Username</label>
-			  <div class="input-group has-validation">
-				<span class="input-group-text" id="inputGroupPrepend">@</span>
-				<input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-				<div class="invalid-feedback">
-				  Please choose a username.
-				</div>
-			  </div>
-			</div>
-			<div class="col-md-6">
-			  <label for="validationCustom03" class="form-label">City</label>
-			  <input type="text" class="form-control" id="validationCustom03" required>
-			  <div class="invalid-feedback">
-				Please provide a valid city.
-			  </div>
-			</div>
-			<div class="col-md-3">
-			  <label for="validationCustom04" class="form-label">State</label>
-			  <select class="form-select" id="validationCustom04" required>
-				<option selected disabled value="">Choose...</option>
-				<option>...</option>
-			  </select>
-			  <div class="invalid-feedback">
-				Please select a valid state.
-			  </div>
-			</div>
-			<div class="col-md-3">
-			  <label for="validationCustom05" class="form-label">Zip</label>
-			  <input type="text" class="form-control" id="validationCustom05" required>
-			  <div class="invalid-feedback">
-				Please provide a valid zip.
-			  </div>
-			</div>
-			<div class="col-12">
-			  <div class="form-check">
-				<input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-				<label class="form-check-label" for="invalidCheck">
-				  Agree to terms and conditions
-				</label>
-				<div class="invalid-feedback">
-				  You must agree before submitting.
-				</div>
-			  </div>
-			</div>
-			<div class="col-12">
-			  <button class="btn btn-primary" type="submit">Submit form</button>
-			</div>
-		  </form-->
 		<div class="mb-3" id="form-container">
 			<h2>Gerar Crachá</h2>
 			<form id="badge-form">
@@ -90,10 +26,6 @@
 				<label for="formGroupExampleInput" class="form-label">Nome</label>
 				<input type="text" class="form-control" id="name" id="formGroupExampleInput" placeholder="NOME SOBRENOME"required>
 			  </div>
-			  <!--div class="mb-3">
-				<label for="formGroupExampleInput2" class="form-label">Cargo / Função</label>
-				<input type="text" class="form-control" id="role" id="formGroupExampleInput2" placeholder="Auxiliar de TI"required>
-			  </div-->
 			  <div class="mb-3">
 				<label for="role" class="form-label">Cargo / Função</label>
 				<div class="custom-select-container">
@@ -126,32 +58,9 @@
 				</button>
 				<ul class="dropdown-menu" >
 				  <li><button id="download-button" class="dropdown-item" type="button">Download PNG</button></li>
-				  <li><button id="c" class="dropdown-item" type="button" >Download PDF</button></li>
+				  <li><button id="download-buttonPDF" class="dropdown-item" type="button" >Download PDF</button></li>
 				</ul>
 			  </div>
-			  <!--<div class="mb-3">
-				<button type="submit" class="btn btn-primary" if="makeCracha">Gerara Crachá</button>
-			  </div>
-			</form>-->
-			<!--<form id="badge-form">
-				<div>
-					<label for="name">Nome:</label>
-					<input type="text" id="name" name="name" required>
-				</div>
-				<div>
-					<label for="role">Cargo:</label>
-					<input type="text" id="role" name="role" placeholder="teste" required>
-				</div>
-				<div>
-					<label for="cpf">CPF:</label>
-					<input type="text" id="cpf" name="cpf" required>
-				</div>
-				<div>
-					<label for="photo">Foto:</label>
-					<input type="file" id="photo" name="photo" accept="image/*" required>
-				</div>
-				<button type="submit">Gerar Crachá</button>
-			</form> -->
 		</div>
 		<div class="mb-3" id="preview-container">
 			<h2>Prévia do Crachá</h2>
@@ -159,17 +68,6 @@
 				<canvas id="badge-canvas-front" width="638" height="1004"></canvas>
 				<canvas id="badge-canvas-back" width="638" height="1004"></canvas>
 			</div>
-			<!--<div class="dropdown">
-				<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				  Exportar Crachá
-				</button>
-				<ul class="dropdown-menu">
-				  <li><button id="download-button" class="dropdown-item" type="button">Download PNG</button></li>
-				  <li><button id="download-buttonPDF" class="dropdown-item" type="button">Download PDF</button></li>
-				</ul>
-			  </div>
-
-			   <button id="download-button" class="">Baixar Crachá</button> -->
 		</div>
 		<div id="overlay"></div>
 		<div id="crop-container">
@@ -189,10 +87,12 @@
 
 	<script src="/js/pdf-lib.js"></script>
 
-	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script-->
-	<script src="/node_modules/cropperjs/dist/cropper.min.js"></script>
-    <script src="/js/cropper.min.js"></script>
-	<script src="js/index.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+	<!--script src="/node_modules/cropperjs/dist/cropper.min.js"></script-->
+    <!--script src="/js/cropper.min.js"></script-->
+	<!--script src="https://unpkg.com/pdf-lib@^2.0.0/dist/pdf-lib.min.js"></script-->
+	<!--script src="js/index.js"></script-->
+	<script src="/bundle.js"></script>
 	
 </body>
 </html>
